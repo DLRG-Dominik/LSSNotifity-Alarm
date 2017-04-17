@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Notification_Alarm
-// @version      1.0
+// @version      2.0
 // @description  Zeigt eine Browser-Notification wenn eine Chat-Nachricht, einen Status 5, einen neuen Einsatz oder ein allgemeiner Status eingeht.  
 // @author       DLRG-Dominik
 // @include      *://www.leitstellenspiel.de/
@@ -79,6 +79,7 @@ notifyMe("Initalisierung...","Notification-Alarm wird initalisiert, Bitte warten
     });
     var allianceChatBuffer = allianceChat;
     var radioMessageBuffer = radioMessage;
+    var missionListBuffer = mission_list;
     allianceChat = function(t){
         allianceChatBuffer(t);
         if(user_id !== t.user_id && allianceChatNotifcation){
@@ -88,12 +89,31 @@ notifyMe("Initalisierung...","Notification-Alarm wird initalisiert, Bitte warten
     };
     radioMessage = function(t){
         radioMessageBuffer(t);
-        if(t.fms_real == 5 && allianceS5Notifcation && alliance_ignore_fms){
-            console.log(alliance_ignore_fms);
-            notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+        if(t.fms_real == 5 && allianceS5Notifcation){
+           if(t.fms_text.startsWith("[Verband]"))
+           {
+               if(!alliance_ignore_fms)
+               {
+                   notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+               }
+           }
+           else
+           {
+              notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+           }
         }
         else if(t.fms_real != 5 && allianceStatusNotifcation){
-            notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+            if(t.fms_text.startsWith("[Verband]"))
+           {
+               if(!alliance_ignore_fms)
+               {
+                   notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+               }
+           }
+           else
+           {
+              notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+           }
         }
     };
 })();
