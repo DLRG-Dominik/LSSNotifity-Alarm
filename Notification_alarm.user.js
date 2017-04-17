@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         Notification_Alarm
+// @namespace    http://www.fsprogramming.de
 // @version      2.0
 // @description  Zeigt eine Browser-Notification wenn eine Chat-Nachricht, einen Status 5, einen neuen Einsatz oder ein allgemeiner Status eingeht.  
 // @author       DLRG-Dominik
