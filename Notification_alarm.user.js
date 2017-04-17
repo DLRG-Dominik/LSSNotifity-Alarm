@@ -5,7 +5,7 @@
 // @author       DLRG-Dominik
 // @include      *://www.leitstellenspiel.de/
 // @exclude      *://www.leitstellenspiel.de/mission*
-// @updateURL    https://github.com/DLRG-Dominik/LSSNotifity-Alarm/blob/master/Notification_alarm.user.js
+// @updateURL    https://github.com/DLRG-Dominik/LSSNotifity-Alarm/raw/master/Notification_alarm.user.js
 // @grant        none
 // ==/UserScript==
 function notifyMe(username,message,type="init",fms="2") {
