@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Notification_Alarm
 // @namespace    http://www.fsprogramming.de
-// @version      1.0
+// @version      1.1
 // @description  Zeigt eine Browser-Notification wenn eine Chat-Nachricht, einen Status 5, einen neuen Einsatz oder ein allgemeiner Status eingeht.  
 // @author       DLRG-Dominik
 // @include      *://www.leitstellenspiel.de/
@@ -10,7 +10,7 @@
 // @downloadURL  https://github.com/DLRG-Dominik/LSSNotifity-Alarm/raw/master/Notification_alarm.user.js
 // @grant        none
 // ==/UserScript==
-function notifyMe(username,message,type="init",fms="2") {
+function notifyMe(username,message,type="init",fms="2",vid="0") {
 
     if (!("Notification" in window)) {
         alert("This browser does not support desktop notification");
@@ -31,14 +31,24 @@ function notifyMe(username,message,type="init",fms="2") {
             var notification = new Notification('Chatnachricht von '+username, {
                 body: message,
                 icon: "https://raw.githubusercontent.com/DLRG-Dominik/LSSNotifity-Alarm/master/134895.png"
-            });  
+            });
+            notification.onclick = function () {
+                  window.focus();
+                };
         }
         else if(type =="Status")
         {
             var notification = new Notification(username, {
                 body: message,
-                icon: "https://raw.githubusercontent.com/DLRG-Dominik/LSSNotifity-Alarm/master/Status_"+fms+".png" 
-            });  
+                icon: "https://raw.githubusercontent.com/DLRG-Dominik/LSSNotifity-Alarm/master/Status_"+fms+".png",
+            });
+            notification.onclick = function () {
+                  
+                 $( "body" ).append('<a href="/vehicles/'+ vid +'" id="v_'+vid+'_'+fms+'" class="btn btn-xs btn-default lightbox-open">'+username+'</a>');
+                  $('#v_'+vid+'_'+fms+'').click();
+                  window.focus();
+                  $('#v_'+vid+'_'+fms+'').remove();
+                };
         }
 
     }
@@ -96,12 +106,12 @@ notifyMe("Initalisierung...","Notification-Alarm wird initalisiert, Bitte warten
            {
                if(!alliance_ignore_fms)
                {
-                   notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+                   notifyMe(t.caption,t.fms_text,"Status",t.fms_real,t.id);
                }
            }
            else
            {
-              notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+              notifyMe(t.caption,t.fms_text,"Status",t.fms_real,t.id);
            }
         }
         else if(t.fms_real != 5 && allianceStatusNotifcation){
@@ -109,12 +119,12 @@ notifyMe("Initalisierung...","Notification-Alarm wird initalisiert, Bitte warten
            {
                if(!alliance_ignore_fms)
                {
-                   notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+                   notifyMe(t.caption,t.fms_text,"Status",t.fms_real,t.id);
                }
            }
            else
            {
-              notifyMe(t.caption,t.fms_text,"Status",t.fms_real);
+              notifyMe(t.caption,t.fms_text,"Status",t.fms_real,t.id);
            }
         }
     };
